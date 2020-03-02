@@ -33,13 +33,18 @@ python3 data_cleanup.py <PATH_DATA_INPUT> <PATH_DATA_OUTPUT>
 ```
 -   The data output result will store in the CleanedTrafficData folder.
 
+### 3. Create single file (optional):
+-   Merge all data and create binary class and multi class by the following syntax:
+```
+python3 createSingleDataFile.py
+```
 
-### 3. Deep Learning Frameworks
+### 4. Deep Learning Frameworks
 
 -   perfomance results using various deep learning frameworks are compared
 -   10-fold cross-validation techniques was used to validate the model
 
-#### 3.1. FastAI
+#### 4.1. FastAI
 
 -   https://www.fast.ai/
 -   uses PyTorch, https://pytorch.org/ as the backend
@@ -48,7 +53,7 @@ python3 data_cleanup.py <PATH_DATA_INPUT> <PATH_DATA_OUTPUT>
 python3 fastai-expriments.py <PATH_CSV>
 ```
 
-#### 3.2. Keras
+#### 4.2. Keras
 
 -   Tensorflow:
 ```
