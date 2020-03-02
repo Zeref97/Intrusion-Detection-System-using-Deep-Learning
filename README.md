@@ -2,7 +2,7 @@
 
 Towards Developing a Network Intrusion Detection System using Deep Learning Techniques
 - Published article: http://isyou.info/jisis/vol9/no4/jisis-2019-vol9-no4-01.pdf
-- Modify based on: Deep Learning - IDS[https://github.com/rambasnet/DeepLearning-IDS]
+- Modify based on: [Deep Learning - IDS](https://github.com/rambasnet/DeepLearning-IDS)
 
 ## Introduction
 
