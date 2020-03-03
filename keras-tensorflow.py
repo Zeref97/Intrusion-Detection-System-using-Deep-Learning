@@ -17,6 +17,8 @@ import time
 
 dataPath = 'CleanedTrafficData'
 resultPath = 'results_keras_tensorflow'
+
+# Create resultPath
 if not os.path.exists(resultPath):
     print('result path {} created.'.format(resultPath))
     os.mkdir(resultPath)
@@ -47,6 +49,7 @@ cont_names = ['Timestamp', 'Flow Duration', 'Tot Fwd Pkts',
               'Fwd Seg Size Min', 'Active Mean', 'Active Std', 'Active Max',
               'Active Min', 'Idle Mean', 'Idle Std', 'Idle Max', 'Idle Min']
 
+# Load data
 def loadData(fileName):
     dataFile = os.path.join(dataPath, fileName)
     pickleDump = '{}.pickle'.format(dataFile)
@@ -63,12 +66,15 @@ def baseline_model(inputDim=-1, out_shape=(-1,)):
     global model_name
     model = Sequential()
     if inputDim > 0 and out_shape[1] > 0:
+        # Input: (*,inputDim) => Output: (*,79)
         model.add(Dense(79, activation='relu', input_shape=(inputDim,)))
         print(f"out_shape[1]:{out_shape[1]}")
+        # Input: (*,79) => Output: (*,128)
         model.add(Dense(128, activation='relu'))
-        
+        # Input: (*,128) => Output: (*,prob_label)
         model.add(Dense(out_shape[1], activation='softmax')) #This is the output layer
         
+        # Using binary or multiple
         if out_shape[1] > 2:
             print('Categorical Cross-Entropy Loss Function')
             model_name += "_categorical"
@@ -103,7 +109,9 @@ def experiment(dataFile, optimizer='adam', epochs=10, batch_size=10):
     print('optimizer: {} epochs: {} batch_size: {}'.format(
         optimizer, epochs, batch_size))
     
+    # Load data
     data = loadData(dataFile)
+    # Load label
     data_y = data.pop('Label')
     
     #transform named labels into numerical values
@@ -111,6 +119,7 @@ def experiment(dataFile, optimizer='adam', epochs=10, batch_size=10):
     encoder.fit(data_y)
     data_y = encoder.transform(data_y)
     dummy_y = to_categorical(data_y)
+    # Normalize data
     data_x = normalize(data.values)
     
     #define 5-fold cross validation test harness
@@ -124,6 +133,7 @@ def experiment(dataFile, optimizer='adam', epochs=10, batch_size=10):
     sss = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=7)
     start = timer()
     for train_index, test_index in sss.split(X=np.zeros(data_x.shape[0]), y=dummy_y):
+        # Get training set and test set
         X_train, X_test = data_x[train_index], data_x[test_index]
         y_train, y_test = dummy_y[train_index], dummy_y[test_index]
 
